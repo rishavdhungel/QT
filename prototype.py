@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+import sys 
+import os
 
 root= tk.Tk()
 root.title('Primal To Duality Conversion')
 
-canvas1 = tk.Canvas(root, width = 800, height = 600,  relief = 'raised')
+canvas1 = tk.Canvas(root, width = 800, height = 900,  relief = 'raised')
 canvas1.pack()
 #Heading
 label1 = tk.Label(root, text='Conversion of Primal to Duality',fg='white',bg='black')
@@ -63,11 +65,11 @@ blabel7.config(font=('helvetica', 15))
 canvas1.create_window(225+90+80, 165+50, window=blabel7)
 #symbol
 bentry4 = ttk.Combobox(root,values=['<=','>=','='])
-bentry4.current(1)
+bentry4.current(0)
 canvas1.create_window(180+90+170, 160+50, window=bentry4,height=40,width=40)
 #constant
-bentry3 = tk.Entry (root) 
-canvas1.create_window(180+90+220, 160+50, window=bentry3,height=40,width=40)
+bentry5 = tk.Entry (root) 
+canvas1.create_window(180+90+220, 160+50, window=bentry5,height=40,width=40)
 
 
 #creating entry lable and entry for 2nd equation
@@ -94,8 +96,8 @@ centry4 = ttk.Combobox(root,values=['<=','>=','='])
 centry4.current(1)
 canvas1.create_window(180+90+170, 160+50+50, window=centry4,height=40,width=40)
 #constant
-centry3 = tk.Entry (root) 
-canvas1.create_window(180+90+220, 160+50+50, window=centry3,height=40,width=40)
+centry5 = tk.Entry (root) 
+canvas1.create_window(180+90+220, 160+50+50, window=centry5,height=40,width=40)
 
 #creating entry lable and entry for 3rd equation
 #1
@@ -120,20 +122,143 @@ canvas1.create_window(225+90+80, 165+150, window=dlabel7)
 leore = '>='
 geore = '<='
 equal = '='
-dentry4 = ttk.Combobox(root,values=[geore,leore,equal])
-dentry4.current(1)
+dentry4 = ttk.Combobox(root,values=[equal])
+dentry4.current(0)
 canvas1.create_window(180+90+170, 160+150, window=dentry4,height=40,width=40)
 #constant
-dentry3 = tk.Entry (root) 
-canvas1.create_window(180+90+220, 160+150, window=dentry3,height=40,width=40)
+dentry5 = tk.Entry (root) 
+canvas1.create_window(180+90+220, 160+150, window=dentry5,height=40,width=40)
 
 #last portion
 dlabel7 = tk.Label(root, text='X1,X2,X3 >= 0',fg='black')
 dlabel7.config(font=('helvetica', 15))
 canvas1.create_window(225, 165+200, window=dlabel7)
 
+def restart_program():
+    """Restarts the current program.
+    Note: this function does not return. Any cleanup action (like
+    saving data) must be done before calling this function."""
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+def Output():
+
+  gore = "<="
+  leore = ">="
+  equal = "="
+  Max = [int(entry1.get()),int(entry2.get()),int(entry3.get())]
+  first = [int(bentry1.get()),int(bentry2.get()),int(bentry3.get())]
+  firstsym = bentry4.get()
+  firstvalue =int(bentry5.get())
+  second = [int(centry1.get()),int(centry2.get()),int(centry3.get())]
+  secondsym = centry4.get()
+  secondvalue = int(centry5.get())
+  third = [int(dentry1.get()),int(dentry2.get()),int(dentry3.get())]
+  thirdsym = dentry4.get()
+  thirdvalue = int(dentry5.get())
+  final = [1,1,1]
+  finalsym = leore
+  finalvalue = 0
+
+
+
+
+  #constant is greateroe equal to decision variables
+  #if the  objective function is in maximization then we need to change the constant to the greater or equal than decison variable
+
+  #change the equations to other function using if conditional to first and second equation
+  #multiply both side with '-'
+  if(firstsym == leore):
+    newfirstsym = gore
+    newfirst =[i * -1 for i in first]
+    newfirstvalue = firstvalue *-1
+  else:
+    newfirst = first
+    newfirstsym = firstsym
+    newfirstvalue = firstvalue
+
+  if(secondsym == leore):
+    newsecond = [i *-1 for i in second]
+    newsecondsym = gore
+    newsecondvalue = secondvalue * -1
+  else:
+    newsecond = second
+    newsecondsym = secondsym
+    newsecondvalue = secondvalue
+
+  #break the third equation into two part 
+  third1 = third
+  third1sym = leore
+  third1value = thirdvalue
+
+  third2 = third
+  third2sym = gore
+  third2value = thirdvalue
+
+
+
+  #second Step
+  #change the third equation into greater or equal
+  if (third1sym == leore):
+    newthird1 = [i *-1 for i in third1]
+    newthird1sym = gore
+    newthird1value = thirdvalue *-1
+  else:
+    newthird1 = third1
+    newthird1sym = third1sym
+    newthird1value = third1value
+
+  if (third2sym == leore):
+    newthird2 = [i *-1 for i in third2]
+    newthird2sym = gore
+    newthird2value = thirdvalue *-1
+  else:
+    newthird2 = third2
+    newthird2sym = third2sym
+    newthird2value = third2value
+
+
+
+  #append Y1,Y2,Y3,Y4
+  O1 = "Output"
+  O2 = "Min = {}Y1 + {}Y2 + {}Y3 + {}Y4".format(newfirstvalue,newsecondvalue,newthird1value,newthird2value)
+  O3 = "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[0],newsecond[0],newthird1[0],newthird2[0],leore,Max[0])
+  O4= "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[1],newsecond[1],newthird1[1],newthird2[1],leore,Max[1])
+  O5 = "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[2],newsecond[2],newthird1[2],newthird2[2],leore,Max[2])
+  O6 = "Y1,Y2,Y3,Y4 {} 0".format(leore)
+
+  Olabel1 = tk.Label(root, text=O1,fg='blue',bg='yellow')
+  Olabel1.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+200, window=Olabel1)
+
+  Olabel2 = tk.Label(root, text=O2,fg='blue',bg='yellow')
+  Olabel2.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+250, window=Olabel2)
+  
+  Olabel3 = tk.Label(root, text=O3,fg='blue',bg='yellow')
+  Olabel3.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+300, window=Olabel3)
+
+  Olabel4 = tk.Label(root, text=O4,fg='blue',bg='yellow')
+  Olabel4.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+350, window=Olabel4)
+
+  Olabel5 = tk.Label(root, text=O5,fg='blue',bg='yellow')
+  Olabel5.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+400, window=Olabel5)
+
+  Olabel6 = tk.Label(root, text=O6,fg='blue',bg='yellow')
+  Olabel6.config(font=('helvetica', 17))
+  canvas1.create_window(225+100, 365+450, window=Olabel6)
+
+
 #Button Portion
-button1 = tk.Button(text='Convert',  bg='blue', fg='white', font=('helvetica', 15, 'bold'),relief = 'solid')
-canvas1.create_window(380, 365+50, window=button1,height=50,width=100)
+button1 = tk.Button(text='Convert',  bg='blue', fg='white', font=('helvetica', 15, 'bold'),relief = 'solid',command=Output)
+canvas1.create_window(250, 365+50, window=button1,height=50,width=100)
+
+#Button Portion
+button2 = tk.Button(text='Reset',  bg='red', fg='white', font=('helvetica', 15, 'bold'),relief = 'solid',command=restart_program)
+canvas1.create_window(480, 365+50, window=button2,height=50,width=100)
+
 
 root.mainloop()
