@@ -1,5 +1,7 @@
+#!/usr/bin/python3
 import tkinter as tk
 from tkinter import ttk
+from tkinter import Frame
 import sys 
 import os
 
@@ -133,7 +135,7 @@ canvas1.create_window(180+90+220, 160+150, window=dentry5,height=40,width=40)
 dlabel7 = tk.Label(root, text='X1,X2,X3 >= 0',fg='black')
 dlabel7.config(font=('helvetica', 15))
 canvas1.create_window(225, 165+200, window=dlabel7)
-
+canvas1.create_rectangle(5, 450, 800, 800,fill='white')
 def restart_program():
     """Restarts the current program.
     Note: this function does not return. Any cleanup action (like
@@ -220,36 +222,38 @@ def Output():
 
 
   #append Y1,Y2,Y3,Y4
-  O1 = "Output"
+  O1 = "======Output======"
   O2 = "Min = {}Y1 + {}Y2 + {}Y3 + {}Y4".format(newfirstvalue,newsecondvalue,newthird1value,newthird2value)
   O3 = "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[0],newsecond[0],newthird1[0],newthird2[0],leore,Max[0])
   O4= "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[1],newsecond[1],newthird1[1],newthird2[1],leore,Max[1])
   O5 = "{}Y1 + {}Y2 + {}Y3 + {}Y4 {} {}".format(newfirst[2],newsecond[2],newthird1[2],newthird2[2],leore,Max[2])
   O6 = "Y1,Y2,Y3,Y4 {} 0".format(leore)
 
-  Olabel1 = tk.Label(root, text=O1,fg='blue',bg='yellow')
-  Olabel1.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+200, window=Olabel1)
-
-  Olabel2 = tk.Label(root, text=O2,fg='blue',bg='yellow')
-  Olabel2.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+250, window=Olabel2)
   
-  Olabel3 = tk.Label(root, text=O3,fg='blue',bg='yellow')
+
+  Olabel1 = tk.Label(root, text=O1,fg='black',bg='white')
+  Olabel1.config(font=('helvetica', 17))
+  canvas1.create_window(225+190, 305+225, window=Olabel1)
+
+  Olabel2 = tk.Label(root, text=O2,fg='black',bg='white')
+  Olabel2.config(font=('helvetica', 17))
+  canvas1.create_window(225+190, 305+250, window=Olabel2)
+  
+  Olabel3 = tk.Label(root, text=O3,fg='black',bg='white')
   Olabel3.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+300, window=Olabel3)
+  canvas1.create_window(225+190, 305+300, window=Olabel3)
 
-  Olabel4 = tk.Label(root, text=O4,fg='blue',bg='yellow')
+  Olabel4 = tk.Label(root, text=O4,fg='black',bg='white')
   Olabel4.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+350, window=Olabel4)
+  canvas1.create_window(225+190, 305+350, window=Olabel4)
 
-  Olabel5 = tk.Label(root, text=O5,fg='blue',bg='yellow')
+  Olabel5 = tk.Label(root, text=O5,fg='black',bg='white')
   Olabel5.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+400, window=Olabel5)
+  canvas1.create_window(225+190, 305+400, window=Olabel5)
 
-  Olabel6 = tk.Label(root, text=O6,fg='blue',bg='yellow')
+  Olabel6 = tk.Label(root, text=O6,fg='black',bg='white')
   Olabel6.config(font=('helvetica', 17))
-  canvas1.create_window(225+100, 365+450, window=Olabel6)
+  canvas1.create_window(225+170, 305+450, window=Olabel6)
 
 
 #Button Portion
